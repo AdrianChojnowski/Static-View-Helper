@@ -7,14 +7,15 @@ def main():
     path = pathlib.Path(sys.argv[1])
     for folder in path.iterdir():
         if folder.is_dir():
+            files = sorted(folder.iterdir(), key=os.path.getmtime)  # Sort files by creation time
             counter = 1
-            for file in folder.iterdir():
-                            if file.is_file():
-                                x = view(counter)
-                                y = DayOrNight(counter)
-                                new_file = f"City{folder.name}-View{x}-{y}{file.suffix}"
-                                file.rename(path / folder.name / new_file)
-                                counter += 1
+            for file in files:
+                if file.is_file():
+                    x = view(counter)
+                    y = DayOrNight(counter)
+                    new_file = f"City{folder.name}-View{x}-{y}{file.suffix}"
+                    file.rename(path / folder.name / new_file)
+                    counter += 1
 
 
 def view(x):
